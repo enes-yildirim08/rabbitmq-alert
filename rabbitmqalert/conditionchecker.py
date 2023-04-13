@@ -78,3 +78,4 @@ class ConditionChecker:
         for node in response:
             if node_memory is not None and node.get("mem_used") > (node_memory * pow(1024, 2)):
                 self.notifier.send_notification("Node %s - node_memory_used = %d > %d MBs" % (node.get("name"), node.get("mem_used"), node_memory))
+                

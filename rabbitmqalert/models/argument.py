@@ -1,7 +1,8 @@
-import ConfigParser
+import configparser
 import os
 
-CONFIG_FILE_PATH = "/etc/rabbitmq-alert/config.ini"
+CONFIG_FILE_PATH = "/etc/rabbitmq-alert/config.ini" # change this - ns
+# CONFIG_FILE_PATH = "./rabbitmqalert/config/config.ini"
 
 
 class Argument:
@@ -14,7 +15,7 @@ class Argument:
         self.file = self.load_file()
 
     def load_defaults(self):
-        file_defaults = ConfigParser.ConfigParser()
+        file_defaults = configparser.ConfigParser()
 
         path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
         defaults_file_path = os.path.join(path, "../config/defaults.ini")
@@ -29,7 +30,7 @@ class Argument:
         return file_defaults
 
     def load_file(self):
-        file = ConfigParser.ConfigParser()
+        file = configparser.ConfigParser()
 
         if os.path.isfile(CONFIG_FILE_PATH) and not self.arguments["config_file"]:
             file.read(CONFIG_FILE_PATH)
@@ -73,15 +74,15 @@ class Argument:
 
         return value
 
-    def get_value(self, group, argument):
+    def     get_value(self, group, argument):
 
         def foo():
-            # get value from cli arguments
-            yield (self.arguments[argument.dest] if argument.dest in self.arguments else None)
             # get value from configuration file (given or global configuration file)
             yield self.get_value_from_file(self.file, group, argument)
             # get value from the defaults file
             yield self.get_value_from_file(self.defaults, group, argument)
+            # get value from cli arguments
+            yield (self.arguments[argument.dest] if argument.dest in self.arguments else None)
 
         value = None
         try:

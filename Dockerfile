@@ -1,7 +1,13 @@
-FROM python:2-alpine
+FROM python:3.8-alpine
+
+RUN mkdir /app
+
+ADD . /app
+
+WORKDIR /app
+
+RUN pip install -r requirements.txt
 
 LABEL maintainer="milonas.ko@gmail.com"
 
-RUN pip install --no-cache-dir rabbitmq-alert
-
-CMD ["rabbitmq-alert"]
+CMD ["python", "rabbitmqalert/rabbitmqalert.py"]

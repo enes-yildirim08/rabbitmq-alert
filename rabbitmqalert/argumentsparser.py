@@ -1,4 +1,4 @@
-import ConfigParser
+import configparser
 import os.path
 
 import apiclient
@@ -67,7 +67,9 @@ class ArgumentsParser:
         self.validate(arguments)
 
         conditions = self.format_conditions(arguments)
-        arguments = dict(arguments.items() + conditions.items())
+        arguments = dict(arguments)
+        arguments.update(conditions)
+
 
         return arguments
 
