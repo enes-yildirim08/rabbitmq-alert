@@ -66,16 +66,16 @@ class ConditionChecker:
         if response is None:
             return
 
-        nodes_running = len(response)
+        nodes_running = list(filter(lambda x: x['running'] == True, response))
 
         conditions = arguments["generic_conditions"]
         nodes_run = conditions.get("conditions_nodes_running")
         node_memory = conditions.get("conditions_node_memory_used")
 
-        if nodes_run is not None and nodes_running < nodes_run:
-            self.notifier.send_notification("nodes_running = %d < %d" % (nodes_running, nodes_run))
+        if nodes_run is not None and len(nodes_running) < nodes_run:
+            self.notifier.send_notification("nodes_running = %d < %d" % (len(nodes_running), nodes_run))
 
-        for node in response:
+        for node in nodes_running:
             if node_memory is not None and node.get("mem_used") > (node_memory * pow(1024, 2)):
                 self.notifier.send_notification("Node %s - node_memory_used = %d > %d MBs" % (node.get("name"), node.get("mem_used"), node_memory))
                 
