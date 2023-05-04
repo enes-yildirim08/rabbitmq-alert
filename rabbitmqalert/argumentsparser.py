@@ -24,7 +24,8 @@ QUEUE_CONDITIONS = (
     "conditions_ready_queue_size",
     "conditions_unack_queue_size",
     "conditions_total_queue_size",
-    "conditions_queue_consumers_connected"
+    "conditions_queue_consumers_connected",
+    "conditions_custom_message"
 )
 
 
@@ -61,7 +62,10 @@ class ArgumentsParser:
 
             arguments["queue_conditions"][queue] = dict()
             for condition in QUEUE_CONDITIONS:
-                group_argument = model.create_argument_object(condition, int, None)
+                if condition == "conditions_custom_message":
+                    group_argument = model.create_argument_object(condition, str, None)
+                else:
+                    group_argument = model.create_argument_object(condition, int, None)
                 arguments["queue_conditions"][queue][condition] = model.get_value(group_title, group_argument)
 
         self.validate(arguments)

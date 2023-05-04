@@ -38,6 +38,7 @@ def setup_arguments():
     conditions.add_argument("--open-connections", dest="conditions_open_connections", help="The number of open connections", type=int)
     conditions.add_argument("--nodes-running", dest="conditions_nodes_running", help="The number of nodes running", type=int)
     conditions.add_argument("--node-memory-used", dest="conditions_node_memory_used", help="Memory used by each node in MBs", type=int)
+    conditions.add_argument("--custom-message", dest="conditions_custom_message", help="Add custom message", type=str)
 
     email = parser.add_argument_group("Email")
 

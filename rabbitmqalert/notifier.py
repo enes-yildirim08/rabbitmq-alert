@@ -52,7 +52,8 @@ class Notifier:
             disableNotification = (queKey in self.sendedNotifications and self.sendedNotifications[queKey] > datetime.now() - timedelta(minutes=15))
             self.log.info("Sending Telegram notification: \"{0}\"".format(body))
             sleep(5)
-            text_telegram = "%s: %s" % (self.arguments["server_queue"], text)
+            custom_message = self.arguments["conditions"][self.arguments["server_queue"]]["conditions_custom_message"]
+            text_telegram = "%s: %s %%0AMessage: %s" % (self.arguments["server_queue"], text, custom_message)
             telegram_url = "https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s&disable_notification=%s" % (self.arguments["telegram_bot_id"], self.arguments["telegram_channel"], text_telegram, disableNotification)
             telegram_url = telegram_url.replace(" ", "%20")
             request = urllib2.Request(telegram_url)
